@@ -14,13 +14,27 @@ const QuizBase = () => {
 
 
   useEffect(() => {
-    setInterval(() => {
-      let name = setTime((preve) => preve - 1)
-    }, 1000)
-  }, time)
+            setTime(30);
+            const setTimerunning = setInterval(() => {
+                 setTime((prev) => prev - 1);
+            }, 1000);
+            const newTime = setTimeout(() => {
+                newCallOption()
+            }, 30000);
+            return () => {
+              clearInterval(setTimerunning)
+              clearTimeout(newTime)
+            }
+  }, [currentIndex])
 
-
-
+  const newCallOption = () => {
+     const newItem = currentIndex + 1
+     if(newItem <  quizQuestions.length){
+      setCurrentIndex(newItem)
+     }else{
+      setScore(true)
+     }
+  }
 
   const handleClick = (SelectionOption) => {
     if (SelectionOption === quizQuestions[currentIndex].correctAnswer) {
@@ -30,15 +44,7 @@ const QuizBase = () => {
       toast.error("Wrong Answer!", { autoClose: 1500 });
     }
 
-    const nextquestion = currentIndex + 1;
-    console.log(nextquestion)
-    console.log("length------>",)
-    if (nextquestion < quizQuestions.length) {
-      setCurrentIndex(nextquestion);
-      setSelectedOption(" ");
-    } else {
-      setIsQuizFinal(true);
-    }
+    newCallOption()
   };
 
   return (
@@ -54,7 +60,7 @@ const QuizBase = () => {
             <h3>Quiz App</h3>
             <div className="col-sm-12">
               <h4>
-                Question {currentIndex + 1}: {quizQuestions[currentIndex].question} // question print
+                Question {currentIndex + 1}: {quizQuestions[currentIndex].question} 
               </h4>
               <p>Time: {time} s</p>
             </div>
@@ -81,3 +87,4 @@ const QuizBase = () => {
 };
 
 export default QuizBase;
+
