@@ -38,5 +38,3 @@ npm install
 1. git clone https://github.com/karan8509/Quiz-App.git
 2. Run `npm install`
 3. Run `npm start`
-
-4. 
